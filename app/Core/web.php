@@ -1,14 +1,38 @@
 <?php
 use App\Controllers\FootballTeamController;
+// include __DIR__."/../bootstrap/bootstrap.php";
+$requestUri = $_SERVER['REQUEST_URI'];
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+echo "Request Method: " . $_SERVER['REQUEST_METHOD'] . "<br>";
+echo "Request URI: " . $_SERVER['REQUEST_URI'] . "<br>";
 
-use App\Core\Router;
-
-
-$router = new Router();
-$router->get('/football_teams', [FootballTeamController::class, 'index']);
-$router->get('/football_teams/create', [FootballTeamController::class, 'create']);
-$router->post('/football_teams', [FootballTeamController::class, 'store']);
-$router->get('/football_teams/{id}/edit', [FootballTeamController::class, 'edit']);
-$router->post('/football_teams/{id}', [FootballTeamController::class, 'update']);
-$router->get('/football_teams/{id}', [FootballTeamController::class, 'delete']);
-$router->run($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+switch ($requestUri) {
+    case '/football_teams/index':
+        if ($requestMethod === 'GET') {
+            // $controller = new FootballTeamController();
+            // $controller->index();
+            return require __DIR__.'/../../resources/views/football_teams/index.php';
+        } else {
+            http_response_code(405);
+            echo "405 Method Not Allowed";
+        }
+        break;
+    case '/football_teams/create':
+        if ($requestMethod === 'GET') {
+            $controller = new FootballTeamController();
+            $controller->create();
+        } elseif ($requestMethod === 'POST') {
+            $data = $_POST;
+            $controller = new FootballTeamController();
+            $controller->store($data);
+        } else {
+            http_response_code(405);
+            echo "405 Method Not Allowed";
+        }
+        break;
+    default:
+        http_response_code(404);
+        require __DIR__ . "/../../resources/views/404.php";
+        break;
+}
+?>

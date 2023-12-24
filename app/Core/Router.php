@@ -3,46 +3,66 @@ namespace App\Core;
 
 class Router
 {
-    protected $routes = [];
+    public $routes = [];
 
-    public function get($uri, $action)
+    public function get($uri, $callback)
     {
-        $this->routes['GET'][$uri] = $action;
+        $basePath = '/StadiumStream';
+        $uri = $basePath . $uri;
+        $this->routes[$uri]['GET'] = $callback;
+        // var_dump($this->routes);
     }
 
-    public function post($uri, $action)
+    public function post($uri, $callback)
     {
-        $this->routes['POST'][$uri] = $action;
+        $basePath = '/StadiumStream';
+        $uri = $basePath . $uri;
+        $this->routes[$uri]['POST'] = $callback;
+        // var_dump($this->routes);
     }
 
-    public function run($requestMethod, $requestUri)
+    public function run()
     {
-        if (array_key_exists($requestMethod, $this->routes) && array_key_exists($requestUri, $this->routes[$requestMethod])) {
-            $action = $this->routes[$requestMethod][$requestUri];
-            $this->performAction($action);
+        // $basePath = '/livecoding';
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        
+
+        // $uri = str_replace($basePath, '', $uri);
+        
+
+        $uri = rtrim($uri, '/');
+        
+
+        $method = $_SERVER['REQUEST_METHOD'];
+        var_dump($method);
+
+
+        if ($uri === '') {
+            $uri = '/';
+        }
+        
+
+        if (array_key_exists($uri, $this->routes) && array_key_exists($method, $this->routes[$uri])) {
+            $callback = $this->routes[$uri][$method];
+            if (is_array($callback)) {
+                $controller = new $callback[0]();
+                $method = $callback[1];
+                $controller->$method();
+            } else {
+                http_response_code(500);
+                echo "Server Error";
+                die();
+            }
         } else {
             $this->abort(404);
         }
     }
 
-    protected function performAction($action)
-    {
-        if (is_callable($action)) {
-            $action();
-        } else {
-            $viewPath = __DIR__ . "/../../resources/views/" . str_replace('.', '/', $action) . '.php';
-            if (file_exists($viewPath)) {
-                include $viewPath;
-            } else {
-                $this->abort(404);
-            }
-        }
-    }
-
-    private function abort($code)
+    private function abort($code = 404)
     {
         http_response_code($code);
         require __DIR__ . "/../../resources/views/{$code}.php";
         die();
     }
+
 }
