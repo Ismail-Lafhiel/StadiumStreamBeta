@@ -1,5 +1,5 @@
 <?php
-include("../.../public/index.php");
+// include("../.../public/index.php");
 
 Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/../../')->load();
 

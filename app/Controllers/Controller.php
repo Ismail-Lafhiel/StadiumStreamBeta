@@ -3,8 +3,16 @@ namespace App\Controllers;
 
 class Controller
 {
+    protected $viewPath;
+
     public function __construct()
     {
-        // Constructor logic
+        $this->viewPath = __DIR__ . "/../../resources/views/";
+    }
+
+    protected function render($view, $data = [])
+    {
+        extract($data);
+        include $this->viewPath . "{$view}.php";
     }
 }

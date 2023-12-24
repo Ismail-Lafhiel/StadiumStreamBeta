@@ -1,6 +1,3 @@
 <?php
 
-require '../app/Core/web.php';
-
-
-echo "gg";
+require __DIR__ . '/../app/bootstrap/bootstrap.php';

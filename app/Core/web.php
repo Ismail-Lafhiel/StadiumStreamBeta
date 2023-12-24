@@ -1,11 +1,13 @@
 <?php
-use App\Controllers\UserController;
+use App\Controllers\FootballTeamController;
+
 use App\Core\Router;
-require __DIR__ . '/../../vendor/autoload.php';
 
 $router = new Router();
-
-$router->get('/home', [UserController::class, 'index']);
-
+$router->get('/football_teams', [FootballTeamController::class, 'index']);
+$router->get('/football_teams/create', [FootballTeamController::class, 'create']);
+$router->post('/football_teams', [FootballTeamController::class, 'store']);
+$router->get('/football_teams/{id}/edit', [FootballTeamController::class, 'edit']);
+$router->post('/football_teams/{id}', [FootballTeamController::class, 'update']);
+$router->get('/football_teams/{id}', [FootballTeamController::class, 'delete']);
 $router->run();
-
