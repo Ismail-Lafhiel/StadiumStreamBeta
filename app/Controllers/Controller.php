@@ -7,12 +7,15 @@ class Controller
 
     public function __construct()
     {
-        $this->viewPath = __DIR__ . "/../../resources/views/";
+        $this->viewPath = __DIR__ . "/../../resources/views";
     }
 
     protected function render($view, $data = [])
     {
-        extract($data);
-        include $this->viewPath . "{$view}.php";
+        $file = __DIR__ . '/../../resources/views/' . str_replace('.', '/', $view) . '.php';
+        if (file_exists($file)) {
+            extract($data);
+            include $file;
+        }
     }
 }

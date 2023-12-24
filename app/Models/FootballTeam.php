@@ -5,7 +5,7 @@ class FootballTeam extends Model
 {
     public function getAllTeams()
     {
-        $query = "SELECT * FROM team";
+        $query = "SELECT * FROM teams";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -13,29 +13,29 @@ class FootballTeam extends Model
 
     public function getTeamById($id)
     {
-        $query = "SELECT * FROM team WHERE id = :id";
+        $query = "SELECT * FROM teams WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
     }
 
-    public function createTeam($teamName, $numPlayers, $coach)
+    public function createTeam($name, $players, $coach)
     {
-        $query = "INSERT INTO team (team_name, num_players, coach) VALUES (:teamName, :numPlayers, :coach)";
+        $query = "INSERT INTO teams (name, players, coach) VALUES (:name, :players, :coach)";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':teamName', $teamName);
-        $stmt->bindParam(':numPlayers', $numPlayers);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':players', $players);
         $stmt->bindParam(':coach', $coach);
         return $stmt->execute();
     }
 
-    public function updateTeam($id, $teamName, $numPlayers, $coach)
+    public function updateTeam($id, $name, $players, $coach)
     {
-        $query = "UPDATE team SET team_name = :teamName, num_players = :numPlayers, coach = :coach WHERE id = :id";
+        $query = "UPDATE teams SET name = :name, players = :players, coach = :coach WHERE id = :id";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':teamName', $teamName);
-        $stmt->bindParam(':numPlayers', $numPlayers);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':players', $players);
         $stmt->bindParam(':coach', $coach);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
@@ -43,7 +43,7 @@ class FootballTeam extends Model
 
     public function deleteTeam($id)
     {
-        $query = "DELETE FROM team WHERE id = :id";
+        $query = "DELETE FROM teams WHERE id = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();

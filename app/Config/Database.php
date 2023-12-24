@@ -1,6 +1,5 @@
 <?php
 namespace App\Config;
-
 class Database {
     private $host;
     private $user;

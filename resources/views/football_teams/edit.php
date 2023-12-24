@@ -1,4 +1,5 @@
-<?php include("../layout/head.php") ?>
+<?php include(__DIR__ . "/../layout/head.php");
+ ?>
 
 
 <body>
@@ -50,14 +51,16 @@
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Players</label>
                             <input type="number" name="palyers" id="palyers"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="National team players number" required="" value="<?php echo $team['num_players']; ?>">
+                                placeholder="National team players number" required=""
+                                value="<?php echo $team['num_players']; ?>">
                         </div>
                         <div>
                             <label for="coach"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Coach</label>
                             <input type="text" name="coach" id="coach"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="National team head coach" required="" value="<?php echo $team['coach']; ?>">
+                                placeholder="National team head coach" required=""
+                                value="<?php echo $team['coach']; ?>">
                         </div>
                     </div>
                     <button type="submit"
@@ -74,7 +77,8 @@
             </div>
         </div>
     </div>
-    <?php include('layout/footer.php') ?>
+    <?php include(__DIR__ . "/../layout/footer.php");
+    ?>
 </body>
 
 </html>
